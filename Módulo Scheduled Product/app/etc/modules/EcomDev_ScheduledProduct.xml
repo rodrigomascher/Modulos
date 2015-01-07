@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <EcomDev_ScheduledProduct>
+            <active>true</active> <!-- the module activity state -->
+            <codePool>community</codePool> <!-- the module code pool -->
+            <depends>
+                <Mage_Catalog />  <!-- the module depends on Mage_Catalog module, so it mentioned here -->
+            </depends>
+        </EcomDev_ScheduledProduct>
+    </modules>
+</config>

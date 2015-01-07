@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <EcomDev_ScheduledProduct>
+            <version>1.0.0</version>
+        </EcomDev_ScheduledProduct>
+    </modules>
+    <global>
+        <models>
+            <ecomdev_scheduledproduct>
+            <!-- specification of model name space,
+                 so we can call models like Mage::getModel('ecomdev_scheduledproduct/somemodelname') -->
+                <class>EcomDev_ScheduledProduct_Model</class>
+            </ecomdev_scheduledproduct>
+        </models>
+        <resources>
+            <!-- specifying of setup model and setup script path in sql folder -->
+            <ecomdev_scheduledproduct_setup>
+                <setup>
+                    <module>EcomDev_ScheduledProduct</module>
+                    <class>EcomDev_ScheduledProduct_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <!-- use catalog connection to modify products -->
+                    <use>catalog_setup</use>
+                </connection>
+            </ecomdev_scheduledproduct_setup>
+        </resources>
+    </global>
+	<adminhtml>
+        <events>
+            <adminhtml_catalog_product_edit_prepare_form>
+                <observers>
+                    <ecomdev_scheduledproduct>
+                        <type>singleton</type>
+                        <model>ecomdev_scheduledproduct/observer</model>
+                        <method>observeProductEditFortInitialization</method>
+                    </ecomdev_scheduledproduct>
+                </observers>
+            </adminhtml_catalog_product_edit_prepare_form>
+        </events>
+    </adminhtml>
+	<crontab>
+        <jobs>
+            <ecomdev_scheduledproduct_process_schedule>
+                <schedule>
+                    <!-- Schedule for every 5 minutes -->
+                    <cron_expr>*/1 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ecomdev_scheduledproduct/observer::cronProcessScheduledProducts</model>
+                </run>
+            </ecomdev_scheduledproduct_process_schedule>
+        </jobs>
+    </crontab>
+</config>
